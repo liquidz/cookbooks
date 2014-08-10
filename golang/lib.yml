@@ -1,0 +1,11 @@
+---
+- include: go.yml
+- hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+  vars:
+    ghq_root: "~/src"
+  tasks:
+    - shell: go get github.com/nsf/gocode
+    - shell: go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
+    - shell: go get github.com/peco/peco/cmd/peco
