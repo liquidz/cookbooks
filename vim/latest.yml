@@ -38,6 +38,8 @@
       args:
         chdir: "{{src_dir}}/vim"
         creates: "/usr/local/bin/vim"
+    #
+    - copy: src=files/ld_lib_path.sh dest=/etc/profile.d/ld_lib_path.sh
     # remove vim-mininal
     - name: remove pre-installed vim
       yum: name="vim-minimal" state=absent
