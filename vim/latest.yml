@@ -6,7 +6,7 @@
     luajit_repo: "http://luajit.org/git/luajit-2.0.git"
     vim_repo: "https://vim.googlecode.com/hg/"
     vim_configure: "--prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --with-luajit --enable-fail-if-missing"
-    src_dir: "/usr/loacl/src"
+    src_dir: "/usr/local/src"
   tasks:
     # yum install
     - name: install gcc
