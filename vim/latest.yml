@@ -11,9 +11,10 @@
       - ncurses-devel
       - lua
       - lua-devel
+      - python-devel
     luajit_repo: "http://luajit.org/git/luajit-2.0.git"
     vim_repo: "https://github.com/vim/vim"
-    vim_configure: "--prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --with-luajit --enable-fail-if-missing"
+    vim_configure: "--prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --with-luajit --enable-pythoninterp --enable-fail-if-missing"
     src_dir: "/usr/local/src"
   tasks:
     # yum install
