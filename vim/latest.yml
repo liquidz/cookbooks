@@ -3,24 +3,23 @@
   connection: local
   sudo: yes
   vars:
+    yum_packages:
+      - make
+      - gcc
+      - git
+      - ncurses
+      - ncurses-devel
+      - lua
+      - lua-devel
+      - python-devel
     luajit_repo: "http://luajit.org/git/luajit-2.0.git"
-    vim_repo: "https://vim.googlecode.com/hg/"
-    vim_configure: "--prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --with-luajit --enable-fail-if-missing"
+    vim_repo: "https://github.com/vim/vim"
+    vim_configure: "--prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --with-luajit --enable-pythoninterp --enable-fail-if-missing"
     src_dir: "/usr/local/src"
   tasks:
     # yum install
-    - name: install gcc
-      yum: name=gcc state=present
-    - name: install ncurses
-      yum: name=ncurses state=present
-    - name: install ncurses-devel
-      yum: name=ncurses-devel state=present
-    - name: install mercurial
-      yum: name=mercurial state=present
-    - name: install lua
-      yum: name=lua state=present
-    - name: install lua-devel
-      yum: name=lua-devel state=present
+    - yum: name={{ item }} state=present
+      with_items: yum_packages
     # luajit
     - git: repo={{luajit_repo}}
            dest={{src_dir}}/luajit
@@ -32,8 +31,12 @@
       args:
         chdir: "{{src_dir}}/luajit"
         creates: "/usr/local/lib/libluajit-5.1.so"
-    - hg: repo={{vim_repo}}
-          dest={{src_dir}}/vim
+    - git: repo={{vim_repo}}
+           dest={{src_dir}}/vim
+           version=master
+           accept_hostkey=yes
+           update=no
+    # build vim
     - shell: ./configure {{vim_configure}} && make && make install
       args:
         chdir: "{{src_dir}}/vim"
