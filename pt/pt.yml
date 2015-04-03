@@ -1,0 +1,15 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+  vars:
+    pt_url: "https://github.com/monochromegane/the_platinum_searcher/releases/download/v1.7.6/pt_linux_amd64.tar.gz"
+    name: "pt_linux_amd64"
+    download_dir: "/tmp"
+    dist_dir: "/usr/local/bin"
+  tasks:
+    - get_url: url={{pt_url}} dest={{download_dir}}//{{name}}.tar.gz
+    - shell: tar xvf {{name}}.tar.gz && /bin/cp -pf {{name}}/pt {{dist_dir}}
+      args:
+        chdir: "{{download_dir}}"
+        creates: "{{dist_dir}}/pt"
