@@ -1,0 +1,11 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+  vars:
+    users:
+      - root
+  tasks:
+    - yum: name=zsh state=present
+    - user: name={{ item }} shell=/bin/zsh
+      with_items: users
