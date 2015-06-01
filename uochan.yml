@@ -7,3 +7,6 @@
     users:
       - root
       - vagrant
+- include: golang/go.yml
+- include: golang/lib.yml
+  sudo: no
