@@ -3,7 +3,7 @@
   connection: local
   sudo: yes
   vars:
-    go_url: "https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz"
+    go_url: "https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz"
     prefix_dir: "/usr/local"
   tasks:
     - name: install mercurial

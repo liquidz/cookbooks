@@ -36,11 +36,11 @@
            version=master
            accept_hostkey=yes
            update=no
+    # generate rebuild.sh
+    - template: src=templates/rebuild.sh dest={{src_dir}}/vim/rebuild.sh mode=0755
     # build vim
     - shell: ./configure {{vim_configure}} && make && make install
       args:
         chdir: "{{src_dir}}/vim"
         creates: "/usr/local/bin/vim"
     - copy: src=files/ld_lib_path.sh dest=/etc/profile.d/ld_lib_path.sh
-    # generate rebuild.sh
-    - template: src=templates/rebuild.sh dest={{src_dir}}/vim/rebuild.sh mode=0755
