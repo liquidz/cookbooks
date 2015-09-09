@@ -1,0 +1,12 @@
+---
+- include: pt/pt.yml
+- include: tmux/build.yml
+- include: vim/latest.yml
+- include: zsh/zsh.yml
+  vars:
+    users:
+      - root
+      - vagrant
+- include: golang/go.yml
+- include: golang/lib.yml
+  sudo: no

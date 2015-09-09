@@ -1,0 +1,18 @@
+---
+- include: erlang.yml
+- hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+  vars:
+    prefix_dir: "/usr/local"
+    src_dir: "{{prefix_dir}}/src/elixir"
+    repository: "https://github.com/elixir-lang/elixir"
+  tasks:
+    - git: repo={{repository}}
+           dest={{src_dir}}
+           version=master
+           accept_hostkey=yes
+           update=no
+    - shell: make clean test
+      args:
+        chdir: "{{src_dir}}"

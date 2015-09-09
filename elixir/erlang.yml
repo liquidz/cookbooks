@@ -1,0 +1,19 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  sudo: yes
+  vars:
+    prefix_dir: "/usr/local"
+    version: "18.0"
+    src_name: "otp_src_{{version}}"
+    src_tarball: "http://www.erlang.org/download/{{src_name}}.tar.gz"
+  tasks:
+    - get_url: url={{src_tarball}} dest={{prefix_dir}}/src/{{src_name}}.tar.gz
+    - shell: tar xvf {{src_name}}.tar.gz
+      args:
+        chdir: "{{prefix_dir}}/src"
+        creates: "{{prefix_dir}}/src/{{src_name}}"
+    - shell: ./configure && make && make install
+      args:
+        chdir: "{{prefix_dir}}/src/{{src_name}}"
+        creates: "{{prefix_dir}}/bin/erl"

@@ -1,8 +1,7 @@
 ---
-- include: go.yml
 - hosts: 127.0.0.1
   connection: local
-  sudo: yes
+  sudo: no
   vars:
     ghq_root: "~/src"
   tasks:
