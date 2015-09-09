@@ -8,3 +8,4 @@
     - shell: go get github.com/nsf/gocode
     - shell: go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
     - shell: go get github.com/peco/peco/cmd/peco
+    - shell: go get github.com/dufferzafar/cheat
