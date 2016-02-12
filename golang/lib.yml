@@ -4,8 +4,11 @@
   sudo: no
   vars:
     ghq_root: "~/src"
+  environment:
+    GOROOT: /usr/local/go
+    GOPATH: "{{ lookup('env', 'HOME') }}"
   tasks:
-    - shell: go get github.com/nsf/gocode
-    - shell: go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
-    - shell: go get github.com/peco/peco/cmd/peco
-    - shell: go get github.com/dufferzafar/cheat
+    - shell: /usr/local/go/bin/go get github.com/nsf/gocode
+    - shell: /usr/local/go/bin/go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
+    - shell: /usr/local/go/bin/go get github.com/peco/peco/cmd/peco
+    - shell: /usr/local/go/bin/go get github.com/dufferzafar/cheat

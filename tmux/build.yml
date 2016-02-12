@@ -3,7 +3,7 @@
   connection: local
   sudo: yes
   vars:
-    libevent_url: "https://sourceforge.net/projects/levent/files/libevent/libevent-2.0/libevent-2.0.22-stable.tar.gz"
+    libevent_url: "https://sourceforge.net/projects/levent/files/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz"
     libevent_file: "libevent-2.0.22-stable.tar.gz"
     libevent_conf: "/etc/ld.so.conf.d/libevent.conf"
     tmux_url: "http://downloads.sourceforge.net/project/tmux/tmux/tmux-1.9/tmux-1.9a.tar.gz"
@@ -12,7 +12,10 @@
     lib_dir: "/usr/local/lib"
   tasks:
     # install libevent
-    - get_url: url={{libevent_url}} dest={{src_dir}}/{{libevent_file}}
+    - shell: curl -L -o {{libevent_file}} {{libevent_url}} 
+      args:
+        chdir: "{{src_dir}}"
+        creates: "{{libevent_file}}"
     - shell: tar xvf {{libevent_file}}
       args:
         chdir: "{{src_dir}}"
@@ -25,7 +28,10 @@
     - shell: echo "{{lib_dir}}" > {{libevent_conf}} && ldconfig
 
     # install tmux
-    - get_url: url={{tmux_url}} dest={{src_dir}}/{{tmux_file}}
+    - shell: curl -L -o {{tmux_file}} {{tmux_url}}
+      args:
+        chdir: "{{src_dir}}"
+        creates: "{{tmux_file}}"
     - shell: tar xvf {{tmux_file}}
       args:
         chdir: "{{src_dir}}"
