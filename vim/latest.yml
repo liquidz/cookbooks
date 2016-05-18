@@ -1,7 +1,7 @@
 ---
 - hosts: 127.0.0.1
   connection: local
-  sudo: yes
+  become: yes
   vars:
     yum_packages:
       - make
@@ -20,7 +20,7 @@
   tasks:
     # yum install
     - yum: name={{ item }} state=present
-      with_items: yum_packages
+      with_items: "{{yum_packages}}"
     # luajit
     - git: repo={{luajit_repo}}
            dest={{src_dir}}/luajit

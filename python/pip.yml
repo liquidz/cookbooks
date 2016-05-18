@@ -1,0 +1,8 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+    - yum: name=python-pip state=present
+    - shell: pip install pip --upgrade
+
