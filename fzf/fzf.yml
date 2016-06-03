@@ -1,0 +1,16 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  become: no
+  vars:
+    fzf_repo: "https://github.com/junegunn/fzf.git"
+    install_option: "--bin --64"
+    src_dir: "~/.fzf"
+  tasks:
+    - git: repo={{fzf_repo}}
+           dest={{src_dir}}
+           depth=1
+           version=master
+           accept_hostkey=yes
+           update=no
+    - shell: "{{src_dir}}/install {{install_option}}"

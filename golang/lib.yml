@@ -1,14 +1,22 @@
 ---
 - hosts: 127.0.0.1
   connection: local
-  sudo: no
+  become: no
   vars:
     ghq_root: "~/src"
   environment:
     GOROOT: /usr/local/go
     GOPATH: "{{ lookup('env', 'HOME') }}"
   tasks:
-    - shell: /usr/local/go/bin/go get github.com/nsf/gocode
-    - shell: /usr/local/go/bin/go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
-    - shell: /usr/local/go/bin/go get github.com/peco/peco/cmd/peco
-    - shell: /usr/local/go/bin/go get github.com/dufferzafar/cheat
+    - name: gocode
+      shell: /usr/local/go/bin/go get github.com/nsf/gocode
+      args:
+        creates: "{{ lookup('env', 'HOME') }}/bin/gocode"
+    - name: ghq
+      shell: /usr/local/go/bin/go get github.com/motemen/ghq && git config --global ghq.root {{ghq_root}}
+      args:
+        creates: "{{ lookup('env', 'HOME') }}/bin/ghq"
+    - name: cheat
+      shell: /usr/local/go/bin/go get github.com/dufferzafar/cheat
+      args:
+        creates: "{{ lookup('env', 'HOME') }}/bin/cheat"

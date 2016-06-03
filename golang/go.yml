@@ -1,20 +1,18 @@
 ---
 - hosts: 127.0.0.1
   connection: local
-  sudo: yes
+  become: yes
   vars:
-    go_url: "https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz"
+    go_url: "https://storage.googleapis.com/golang/go1.6.2.linux-amd64.tar.gz"
     prefix_dir: "/usr/local"
   tasks:
-    - name: install mercurial
-      yum: name=hg state=present
+    #- name: install mercurial
+    #  yum: name=hg state=present
     - name: install tar
       yum: name=tar state=present
-    - shell: curl -o go.tar.gz {{go_url}}
+    - get_url: url={{go_url}} dest={{prefix_dir}}/src/go.tar.gz
+    - unarchive:
       args:
-        chdir: "{{prefix_dir}}/src"
-        creates: "go.tar.gz"
-    - shell: tar xvf src/go.tar.gz
-      args:
-        chdir: "{{prefix_dir}}"
+        src: "{{prefix_dir}}/src/go.tar.gz"
+        dest: "{{prefix_dir}}"
         creates: "{{prefix_dir}}/go/bin/go"
