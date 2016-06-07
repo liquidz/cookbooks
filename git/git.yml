@@ -1,0 +1,29 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  vars:
+    version: "2.8.3"
+    src_url: "https://www.kernel.org/pub/software/scm/git/git-{{version}}.tar.gz"
+    prefix_dir: "/usr/local"
+    yum_packages:
+      - curl-devel
+      - expat-devel
+      - gettext-devel
+      - openssl-devel
+      - zlib-devel
+      - perl-ExtUtils-MakeMaker
+  tasks:
+    - yum: name={{ item }} state=present
+      with_items: "{{yum_packages}}"
+    - yum: name=git state=absent
+    - get_url: url={{src_url}} dest={{prefix_dir}}/src/git.tar.gz
+    - unarchive:
+      args:
+        src: "{{prefix_dir}}/src/git.tar.gz"
+        dest: "{{prefix_dir}}/src"
+        creates: "{{prefix_dir}}/src/git-{{version}}"
+    - shell: make prefix={{prefix_dir}} all && make prefix={{prefix_dir}} install
+      args:
+        chdir: "{{prefix_dir}}/src/git-{{version}}"
+        creates: "{{prefix_dir}}/bin/git"

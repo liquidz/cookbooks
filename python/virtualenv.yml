@@ -1,0 +1,10 @@
+---
+- include: pip.yml
+- hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+    - shell: pip install virtualenv
+      args:
+        creates: /usr/bin/virtualenv
+
