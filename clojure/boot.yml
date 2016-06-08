@@ -1,0 +1,13 @@
+---
+- include: java.yml
+- hosts: 127.0.0.1
+  connection: local
+  become: no
+  vars:
+    boot_url: "https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh"
+    bin_dir: "~/bin"
+    msg: "export BOOT_JVM_OPTIONS=\"-Dhttp.proxyHost=$HOST -Dhttp.proxyPort=$PORT -Dhttps.proxyHost=$HOST -Dhttps.proxyPort=$PORT\""
+  tasks:
+    - file: path={{bin_dir}} state=directory
+    - get_url: url={{boot_url}} dest={{bin_dir}}/boot mode=0755
+
