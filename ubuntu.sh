@@ -5,7 +5,7 @@ sudo apt-get update && \
 
 sudo apt-get install -y \
     zsh tmux docker.io \
-    openjdk-8-jdk \
+    python3-pip openjdk-8-jdk \
     software-properties-common
 
 # zsh
@@ -20,6 +20,7 @@ chmod +x ~/bin/lein
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install neovim
+sudo pip3 install neovim
 
 # dotfiles
 curl -L http://bit.ly/uochan_dotfile | bash
