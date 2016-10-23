@@ -22,5 +22,11 @@ sudo apt-get update
 sudo apt-get install neovim
 sudo pip3 install neovim
 
+# golang
+sudo add-apt-repository -y ppa:ubuntu-lxc/lxd-stable
+sudo apt-get update
+sudo apt-get install golang
+
+
 # dotfiles
 curl -L http://bit.ly/uochan_dotfile | bash
