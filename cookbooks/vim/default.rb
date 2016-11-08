@@ -1,51 +1,40 @@
-lua_version = '5.1'
+defaults = {
+    packages: %W( make gcc git ncurses-dev python-dev python3-dev ),
+    src_dir: '/usr/local/src/vim',
+    configure: %W( --prefix=/usr/local
+                   --with-features=huge
+                   --enable-multibyte
+                   --enable-pythoninterp
+                   --enable-fail-if-missing).join(' '),
+}
 
-#liblua#{lua_version}-dev libluajit-#{lua_version}
-%W(
-  make gcc git ncurses-dev
-  python-dev python3-dev
-).each do |pkg_name|
-  package pkg_name
-end
+define :vim_from_source, defaults do
+    package 'vim' do
+        action :remove
+    end
+    params[:packages].each do |pkg_name|
+        package pkg_name
+    end
 
-package 'vim' do
-  action :remove
-end
+    git params[:src_dir] do
+      repository 'https://github.com/vim/vim'
+    end
 
-#link '/usr/include/lua' do
-#  #to "/usr/include/lua#{lua_version}"
-#  to '/usr/include/luajit-2.0'
-#end
-#  --enable-luainterp=dynamic
-#  --with-luajit
+    execute 'configure' do
+      cwd params[:src_dir]
+      command "./configure #{params[:configure]}"
+      not_if 'test -e src/auto/config.log'
+    end
 
-src_dir = '/usr/local/src/vim'
-configure_option = %W(
-  --prefix=/usr/local
-  --with-features=huge
-  --enable-multibyte
-  --enable-pythoninterp
-  --enable-fail-if-missing
-).join(' ')
+    execute 'make and make install' do
+      cwd params[:src_dir]
+      command 'make && make install'
+      not_if 'test -e /usr/local/bin/vim'
+    end
 
-git src_dir do
-  repository 'https://github.com/vim/vim'
-end
-
-execute 'configure' do
-  cwd '/usr/local/src/vim'
-  command "./configure #{configure_option}"
-  not_if 'test -e src/auto/config.log'
-end
-
-execute 'make and make install' do
-  cwd '/usr/local/src/vim'
-  command 'make && make install'
-  not_if 'test -e /usr/local/bin/vim'
-end
-
-template '/usr/local/src/vim/rebuild.sh' do
-  source 'rebuild.sh.erb'
-  mode '0755'
-  variables(configure: configure_option)
+    template '/usr/local/src/vim/rebuild.sh' do
+      source 'rebuild.sh.erb'
+      mode '0755'
+      variables(defaults)
+    end
 end
