@@ -1,4 +1,6 @@
 execute 'install rust' do
-  command 'curl -sSf https://static.rust-lang.org/rustup.sh | sh'
-  not_if 'test -e /usr/local/bin/rustc'
+  command <<-EOT
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
+  EOT
+  not_if 'test -e ~/.cargo/bin/rustc'
 end

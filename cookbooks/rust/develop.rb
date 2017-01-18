@@ -1,22 +1,21 @@
 include_recipe 'default'
 
-home = ENV['HOME']
-rust_version = '1.13.0'
-
-%w( rustfmt racer cargo-script ).each do |pkg_name|
-  execute "cargo install #{pkg_name}" do
-    command "cargo install #{pkg_name}"
-    not_if "test -e ~/.cargo/bin/#{pkg_name}"
-  end
+execute 'install rust source' do
+  command <<-EOT
+    rustup component add rust-src
+  EOT
 end
 
-name = "rustc-#{rust_version}"
-archive = "#{name}-src.tar.gz"
-src_url = "https://static.rust-lang.org/dist/#{archive}"
-execute 'download rust src' do
-  cwd "#{home}/src"
-  command <<-EOC
-    wget #{src_url} && tar xvf #{archive}
-  EOC
-  not_if "#{home}/src/#{name}"
+{
+  'cargo-outdated' => 'cargo-outdated',
+  'cargo-script'   => 'cargo-script',
+  'cargo-update'   => 'cargo-install-update',
+  'clippy'         => 'clippy',
+  'racer'          => 'racer',
+  'rustfmt'        => 'rustfmt',
+}.each do |crate_name, bin_name|
+  execute "install #{crate_name}" do
+    command "cargo install #{crate_name}"
+    not_if "test -e ~/.cargo/bin/#{bin_name}"
+  end
 end

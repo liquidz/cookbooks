@@ -1,5 +1,5 @@
 HOSTNAME = $(shell hostname)
-VERSION = 1.1.2
+VERSION = $(shell ./get_latest_mitamae_version.sh)
 URL = https://github.com/k0kubun/mitamae/releases/download/v$(VERSION)/mitamae-x86_64-linux
 TARGET = $(HOME)/bin/mitamae
 
