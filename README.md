@@ -1,6 +1,6 @@
-# playbooks
+# mitamae cookbooks
 
 ```
-sudo yum install -y ansible
-ansible-playbook uochan.yml
+sudo make
+mitamae local ./roles/ubuntu.rb
 ```
