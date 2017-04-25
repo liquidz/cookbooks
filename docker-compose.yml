@@ -1,0 +1,6 @@
+uodev:
+  build: .
+  ports:
+    - "2222:22"
+  volumes:
+    - ./sync:/home/uochan/sync

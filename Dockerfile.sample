@@ -1,0 +1,44 @@
+FROM ubuntu:xenial
+
+ENV PROXY_HOST http://example.com:8080
+RUN echo "Acquire::http::Proxy \"$PROXY_HOST\";"  > /etc/apt/apt.conf.d/02proxy && \
+    echo "Acquire::https::Proxy \"$PROXY_HOST\";" >> /etc/apt/apt.conf.d/02proxy && \
+    echo "Acquire::ftp::Proxy \"$PROXY_HOST\";"   >> /etc/apt/apt.conf.d/02proxy && \
+    echo "export http_proxy=$PROXY_HOST"          >> /etc/profile && \
+    echo "export https_proxy=$PROXY_HOST"         >> /etc/profile && \
+    echo "export http_proxy=$PROXY_HOST"          >> /etc/zshenv && \
+    echo "export https_proxy=$PROXY_HOST"         >> /etc/zshenv
+
+ENV http_proxy  $PROXY_HOST
+ENV https_proxy $PROXY_HOST
+
+RUN apt-get update -y && \
+    apt-get install -y openssh-server
+
+# sshd config
+RUN sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd
+RUN mkdir /var/run/sshd
+
+RUN apt-get install -y build-essential git curl
+RUN apt-get install -y sudo
+# for vim
+RUN apt-get install -y ncurses-dev python-dev python3-dev
+
+# user
+RUN useradd -m uochan && \
+    echo "uochan ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    echo 'uochan:uochan' | chpasswd && \
+    chsh -s /bin/bash uochan
+USER uochan
+RUN echo "proxy = \"$PROXY_HOST\"" >  ~/.curlrc && \
+    git config --global http.proxy $PROXY_HOST && \
+    git config --global https.proxy $PROXY_HOST
+
+WORKDIR /home/uochan
+RUN git clone https://github.com/liquidz/cookbooks src/github.com/liquidz/cookbooks
+WORKDIR /home/uochan/src/github.com/liquidz/cookbooks
+RUN sudo make
+
+USER root
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
