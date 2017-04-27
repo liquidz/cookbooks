@@ -20,9 +20,6 @@ restart:
 	docker-compose rm -f
 	docker-compose up -d
 
-test:
-	docker run -d -p 2222:22 uochan/20170425
-
 clean:
 	\rm -f $(TARGET)
 
