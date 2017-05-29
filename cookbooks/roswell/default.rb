@@ -1,5 +1,6 @@
 %w(
   git build-essential automake libcurl4-openssl-dev
+  hyperspec
 ).each do |pkg_name|
   package pkg_name
 end
