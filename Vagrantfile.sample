@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+vm = {
+  host: 'uoubu',
+  # https://atlas.hashicorp.com/ubuntu/boxes/xenial64/versions/20170416.0.0/providers/virtualbox.box
+  box_url: 'C:\data\Apps\Vagrant\boxes\ubuntu-xenial64-20170416.0.0.box',
+  ipaddress: '192.168.33.53',
+  memory: 1024,
+  synced_folder: [
+    #{host: '.', guest: '/home/vagrant/sync', disabled: true},
+  ]
+}
+
+Vagrant.configure("2") do |config|
+  #if Vagrant.has_plugin? 'vagrant-proxyconf'
+  #  config.proxy.http     = 'http://example.com:8080'
+  #  config.proxy.https    = 'http://example.com:8080'
+  #  config.proxy.no_proxy = 'localhost,127.0.0.1,192.168.,172.'
+  #end
+
+  config.vm.hostname = vm[:host]
+  config.vm.box = vm[:host]
+  config.vm.box_url = vm[:box_url]
+  config.vm.network :private_network, ip: vm[:ipaddress]
+
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", vm[:memory]]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+  end
+  vm[:synced_folder].each do |sf|
+    config.vm.synced_folder sf[:host], sf[:guest], disabled: sf[:disabled]
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "ubuntu:ubuntu" | sudo chpasswd
+  SHELL
+end

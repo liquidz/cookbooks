@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_NAME="uochan/20170425"
+IMAGE_NAME="uochan/20170511"
 
 show_usage () {
     cat <<EOT

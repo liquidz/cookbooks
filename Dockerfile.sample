@@ -23,6 +23,7 @@ RUN apt-get install -y build-essential git curl
 RUN apt-get install -y sudo
 # for vim
 RUN apt-get install -y ncurses-dev python-dev python3-dev
+RUN apt-get install -y software-properties-common
 
 # user
 RUN useradd -m uochan && \
