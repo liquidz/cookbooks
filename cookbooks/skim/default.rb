@@ -1,4 +1,4 @@
-base_dir = "#{ENV['HOME']}/.skim"
+base_dir = "/home/#{node[:user]}/.skim"
 
 git base_dir do
   repository 'https://github.com/lotabout/skim'
@@ -9,4 +9,10 @@ execute 'install skim' do
     #{base_dir}/install
   EOT
   not_if "test -e #{base_dir}/bin/sk"
+end
+
+execute 'chown .skim' do
+  command <<-EOT
+    chown -R #{node[:user]}:#{node[:group]} #{base_dir}
+  EOT
 end
