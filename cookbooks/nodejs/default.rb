@@ -1,8 +1,9 @@
 include_recipe '../def'
 
-url  = 'https://nodejs.org/download/release/latest/node-v7.7.3-linux-x64.tar.gz'
-file = url.split('/').last
-name = file.gsub('.tar.gz', '')
+url   = 'https://nodejs.org/dist/v8.3.0/node-v8.3.0-linux-x64.tar.xz'
+file  = url.split('/').last
+name  = file.gsub('.tar.xz', '')
+local = '/usr/local'
 
 curl 'nodejs' do
   path "/tmp/#{file}"
