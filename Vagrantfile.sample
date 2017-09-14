@@ -6,7 +6,8 @@ vm = {
   # https://atlas.hashicorp.com/ubuntu/boxes/xenial64/versions/20170416.0.0/providers/virtualbox.box
   box_url: 'C:\data\Apps\Vagrant\boxes\ubuntu-xenial64-20170416.0.0.box',
   ipaddress: '192.168.33.53',
-  memory: 1024,
+  cpus: 3,
+  memory: 2048,
   synced_folder: [
     #{host: '.', guest: '/home/vagrant/sync', disabled: true},
   ]
@@ -25,6 +26,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: vm[:ipaddress]
 
   config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--cpus", vm[:cpus]]
+    vb.customize ["modifyvm", :id, "--ioapic", "on"] if vm[:cpus] > 1
     vb.customize ["modifyvm", :id, "--memory", vm[:memory]]
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
