@@ -1,6 +1,6 @@
 include_recipe '../def'
 
-bin_dir = "/home/#{node[:user]}/bin"
+bin_dir = "#{node[:home]}/bin"
 target = "#{bin_dir}/lein"
 
 directory bin_dir do

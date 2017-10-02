@@ -1,7 +1,7 @@
 include_recipe '../def'
 
 version  = '0.8.2'
-bin_dir  = "/home/#{node[:user]}/bin"
+bin_dir  = "#{node[:home]}/bin"
 zip_file = "/tmp/joker.zip"
 target   = "#{bin_dir}/joker"
 

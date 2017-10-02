@@ -1,4 +1,4 @@
-base_dir = "/home/#{node[:user]}/.skim"
+base_dir = "#{node[:home]}/.skim"
 
 git base_dir do
   repository 'https://github.com/lotabout/skim'
