@@ -1,4 +1,8 @@
-%w( emacs25 xsel).each do |pkg_name|
+%w(
+  emacs25
+  xsel
+  emacs-mozc
+).each do |pkg_name|
   package pkg_name
 end
 
