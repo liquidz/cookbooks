@@ -1,21 +1,13 @@
-#include_recipe '../def'
-#pubkey = '/var/tmp/pubkey.gpg'
-#
-#curl 'yarn pubkey.gpg' do
-#  path pubkey
-#  url  'https://dl.yarnpkg.com/debian/pubkey.gpg'
-#end
-
 pubkey_url = 'https://dl.yarnpkg.com/debian/pubkey.gpg'
 src_list   = '/etc/apt/sources.list.d/yarn.list'
 
 execute 'add yarn public key' do
-	command "curl -sS #{pubkey_url} | sudo apt-key add -"
-	not_if 'apt-key list | grep "Yarn Packaging"'
+  command "curl -sS #{pubkey_url} | sudo apt-key add -"
+  not_if 'apt-key list | grep "Yarn Packaging"'
 end
 
 execute 'add source list' do
-	command "echo \"deb https://dl.yarnpkg.com/debian/ stable main\" | sudo tee #{src_list}"
+  command "echo \"deb https://dl.yarnpkg.com/debian/ stable main\" | sudo tee #{src_list}"
   not_if "test -e #{src_list}"
 end
 

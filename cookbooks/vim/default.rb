@@ -1,10 +1,11 @@
 defaults = {
-  packages: %W( build-essential git ncurses-dev python-dev python3-dev ),
+  packages: %W( build-essential git ncurses-dev python-dev python3-dev xclip ),
   src_dir: '/usr/local/src/vim',
   configure: %W( --prefix=/usr/local
                  --with-features=huge
                  --enable-multibyte
                  --enable-pythoninterp
+                 --enable-python3interp
                  --enable-fail-if-missing).join(' '),
 }
 

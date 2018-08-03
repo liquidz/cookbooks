@@ -1,21 +1,23 @@
 include_recipe '../def'
 
-bin_dir = "#{node[:home]}/bin"
-target = "#{bin_dir}/lein"
+tmp_dir = "/tmp"
+target = "#{tmp_dir}/clj-installer"
 
-directory bin_dir do
-  owner node[:user]
-  group node[:group]
-end
+package 'rlwrap'
 
-curl 'leiningen' do
+curl 'clj installer' do
   path target
-  url  'https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein'
+  url  'https://download.clojure.org/install/linux-install-1.9.0.381.sh'
 end
 
 file target do
   mode '0755'
   owner node[:user]
   group node[:group]
+end
+
+execute 'install clj' do
+  command target
+  not_if 'test -e /usr/local/bin/clj'
 end
 

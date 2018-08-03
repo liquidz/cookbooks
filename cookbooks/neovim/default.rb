@@ -12,3 +12,6 @@ end
 execute 'install neovim' do
   command 'pip3 install neovim'
 end
+
+# to upgrade
+# $ pip3 install neovim -U
