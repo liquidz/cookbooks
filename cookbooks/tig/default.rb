@@ -2,7 +2,7 @@ src_dir = '/usr/local/src/tig'
 prefix  = '/usr/local'
 
 %w(
-  git build-essential
+  git build-essential libncursesw5-dev
 ).each do |pkg_name|
   package pkg_name
 end
@@ -15,7 +15,7 @@ execute 'build tig' do
   cwd src_dir
   command <<-EOT
     ./autogen.sh
-    ./configure --without-ncurses
+    LDLIBS=-lncursesw CFLAGS=-I/usr/include/ncursesw ./configure
     make
     make install
   EOT
