@@ -1,5 +1,6 @@
+# cmake, libboost-all-dev is required by https://github.com/nixprime/cpsm
 defaults = {
-  packages: %W( build-essential git ncurses-dev python-dev python3-dev xclip ),
+  packages: %W( build-essential git ncurses-dev python-dev python3-dev cmake libboost-all-dev ),
   src_dir: '/usr/local/src/vim',
   configure: %W( --prefix=/usr/local
                  --with-features=huge
