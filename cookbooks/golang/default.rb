@@ -1,6 +1,6 @@
 include_recipe '../def'
 
-version = '1.8.3'
+version = '1.11.2'
 local   = '/usr/local'
 
 curl 'golang' do
